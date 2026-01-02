@@ -1,0 +1,81 @@
+/* General Page Styling */
+body {
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Your Card Styling */
+.card1 {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+.card1 label:first-child {
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* Your Form Styling */
+.formcls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Your Input Box Styling */
+.inpbox {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+/* Common Input Styles */
+.inpcommon {
+    font-size: 14px;
+}
+
+/* Your Submit Button Styling */
+.subbtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.subbtn:hover {
+    background-color: #0056b3;
+}
+
+/* "Register new user" Label */
+.formcls label {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #666;
+}
+
+/* Styling for the Signup button specifically */
+input[name="signup"] {
+    background-color: #28a745;
+}
+
+input[name="signup"]:hover {
+    background-color: #218838;
+}
