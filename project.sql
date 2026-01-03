@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2026 at 03:49 PM
+-- Generation Time: Jan 03, 2026 at 01:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -24,13 +24,41 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `department`
+--
+
+CREATE TABLE `department` (
+  `dept_id` tinyint(4) NOT NULL,
+  `dept_name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `department`
+--
+
+INSERT INTO `department` (`dept_id`, `dept_name`) VALUES
+(1, 'AIML'),
+(2, 'CE');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `semester`
 --
 
 CREATE TABLE `semester` (
   `sem_id` varchar(2) NOT NULL,
-  `batch` tinyint(4) DEFAULT NULL
+  `sem_batch` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `semester`
+--
+
+INSERT INTO `semester` (`sem_id`, `sem_batch`) VALUES
+('S1', 'A'),
+('S1', 'B'),
+('S2', 'A');
 
 -- --------------------------------------------------------
 
@@ -60,10 +88,10 @@ INSERT INTO `user` (`emp_id`, `username`, `pass`, `user_type`, `emp_email`, `dep
 --
 
 --
--- Indexes for table `semester`
+-- Indexes for table `department`
 --
-ALTER TABLE `semester`
-  ADD PRIMARY KEY (`sem_id`);
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`dept_id`);
 
 --
 -- Indexes for table `user`

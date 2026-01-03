@@ -20,12 +20,20 @@
                     <option value="2">Coordinator</option>
                     <option value="3">Faculty</option>
                 </select>
-                <select name="dept_id">
-                    <option value="1">AIML</option>
-                    <option value="2">CE</option>
-                    <option value="3">CSE</option>
-                    <option value="4">ECE</option>
-                    <option value="5">EEE</option>
+                <select name="dept_list">
+                    <?php
+                        require_once "connection.php";
+                        $query = " SELECT * FROM department ";
+                        $res = mysqli_query($conn, $query);
+                        if(!$res){
+                            echo "Department Retrieval Failed: ". mysqli_error($conn);  
+                        }
+                        if(mysqli_num_rows($res) > 0){
+                            while($row = mysqli_fetch_assoc($res)){
+                                echo "<option value='{$row['dept_id']}'>{$row['dept_name']}</option>";
+                            }
+                        }
+                    ?>
                 </select>
                 <input type="submit" value="Signup" name="signup" class="subbtn inpcommon">
             </form>

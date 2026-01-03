@@ -36,10 +36,10 @@
 
         if(mysqli_num_rows($res) > 0){
             $row = mysqli_fetch_assoc($res);
-            $_SESSION["user_empid"] = $row["emp_id"];
-            $_SESSION["user_name"] = $row["username"];
+            $row["user_empid"] = $row["emp_id"];
+            $row["username"] = $row["username"];
             if($row["user_type"] == 0) {
-                if($_SESSION['user_name'] == 'principal'){
+                if($row['username'] == 'principal'){
                     header("Location: principal.php");
                     exit();
                 }else{
