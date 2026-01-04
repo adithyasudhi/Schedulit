@@ -46,6 +46,10 @@
     if (isset($_POST["add_dept"])) {
         $dept_id = $_POST["dept_id"];
         $dept_name = $_POST["dept_name"];
+        if (empty($dept_id) || empty($dept_name)) {
+            echo "<script>alert('Error: Both ID and Name are required to add a department'); window.location.href='admin.php';</script>";
+            exit();
+        }
 
         $query = "INSERT INTO department (dept_id, dept_name) values ('$dept_id', '$dept_name');";
         $res = mysqli_query($conn, $query);

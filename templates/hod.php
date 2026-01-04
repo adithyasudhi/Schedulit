@@ -48,6 +48,10 @@
     if (isset($_POST["add_sem"])) {
         $sem_id = mysqli_real_escape_string($conn, $_POST["sem_id"]);
         $sem_batch = mysqli_real_escape_string($conn, $_POST["sem_batch"]);
+        if (empty($sem_id) || empty($sem_batch)) {
+            echo "<script>alert('Error: Both Semester ID and Batch are required to add a semester'); window.location.href='hod.php';</script>";
+            exit();
+        }
 
         
         $query = "INSERT INTO semester (sem_id, sem_batch) values ('$sem_id', '$sem_batch');";
