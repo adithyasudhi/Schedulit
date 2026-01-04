@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>HOD Dashboard</title>
+        <title>HOD's page</title>
     </head>
     <body>
         <div>
-            <label>HOD Page</label>
+            <label>HOD's Page</label>
             <form method="POST" action="hod.php">
-                <input type = "text" name = "sem_id" placeholder = "Semester Name" id = "sem_id" >             
-                <input type = "text" name = "sem_batch" placeholder = "Batch" id = "sem_batch" >
+                <input type = "text" name = "sem_id" placeholder = "Semester Name" id = "sem_id" Required>             
+                <input type = "text" name = "sem_batch" placeholder = "Batch" id = "sem_batch" Required>
                 <input type = "submit" value = "Add Semester" name = "add_sem" class = "subbtn inpcommon">
 
                 <input type = "text" name = "sem_id_remove" placeholder = "Semester Name to Remove" id = "sem_id_remove">

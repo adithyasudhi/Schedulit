@@ -1,10 +1,10 @@
 <html>
     <head>
-        <title>Admin</title>
+        <title>Admin's page</title>
     </head>
     <body>
         <div>
-            <label>Admin page</label>
+            <label>Admin's page</label>
             <form method="POST" action="admin.php">
                 <input type = "text" name = "dept_id" placeholder = "Department ID" id = "dept_id">
                 <input type = "text" name = "dept_name" placeholder = "Department Name" id = "dept_name">
