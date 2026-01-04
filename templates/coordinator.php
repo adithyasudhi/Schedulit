@@ -29,8 +29,8 @@
                 </select>
                 <input type="submit" name="load_batches" value="Load Batches" class="subbtn inpcommon" >
                 <select name = "batch_list">
-                    <option value="">Select Batch</option>
-                        <?php
+                <option value="">Select Batch</option>
+                    <?php
                         require_once "connection.php";
                         if ($selected_sem != "") {
                             $selected_batch = isset($_POST['batch_list']) ? $_POST['batch_list'] : "";
@@ -90,7 +90,7 @@
                 }
                 }
             if (isset($_POST['add_course_form'])) {
-                 $sem_selected = $_POST['selected_sem'];
+                $sem_selected = $_POST['selected_sem'];
                 $batch_selected = $_POST['selected_batch'];
                 ?>
                     <form method="POST" action="">
