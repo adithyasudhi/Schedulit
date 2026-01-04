@@ -7,7 +7,7 @@
         <div>
             <label>Coordinator's Page</label>
             <form method="POST" action="coordinator.php">
-                <label>Select Semester and Batch to Manage Timetable</label>
+                <label>Select Semester and Batch</label>
                 <select name="sem_list">
                 <option value="">Select Semester</option>
                     <?php
@@ -31,6 +31,7 @@
                 <select name = "batch_list">
                     <option value="">Select Batch</option>
                         <?php
+                        require_once "connection.php";
                         if ($selected_sem != "") {
                             $selected_batch = isset($_POST['batch_list']) ? $_POST['batch_list'] : "";
                             $stmt = mysqli_prepare($conn, "SELECT DISTINCT sem_batch FROM semester WHERE sem_id = ?");
@@ -47,15 +48,9 @@
                 </select>
                 <input type = "submit" value = "sem-batch" name = "sem-batch" class = "subbtn inpcommon">
             </form>
-            <?php
-                if(isset($_POST['sem-batch'])) {
-                    $sem_selected = $_POST['sem_list'];
-                    $batch_selected = $_POST['batch_list'];
-                     echo "<p>Managing Timetable for <br> Semester: <strong>$sem_selected</strong> Batch: <strong>$batch_selected</strong></p>";
-                    
-                 }
-           ?>
-            <?php
+           
+            <?php 
+                require_once "connection.php";
                 if (isset($_POST['add_course'])) {
                     $c_id = $_POST['course_id'];
                     $c_name = $_POST['course_name'];
@@ -63,34 +58,57 @@
                     $t = $_POST['course_t'];
                     $p = $_POST['course_p'];
                     $r = $_POST['course_r'];
-                    $sem = $_POST['selected_sem'];
-                    $batch = $_POST['selected_batch'];
-                    $query = "INSERT INTO courses (course_id, course_name, L, T, P, R, sem_id, sem_batch) VALUES ('$c_id', '$c_name', '$l', '$t', '$p', '$r', '$sem', '$batch');";
+                    if (!mysqli_ping($conn)) {
+                        require "connection.php"; 
+                    }
+                    $query = "INSERT INTO course (course_id, course_name, L, T, P, R) VALUES ('$c_id', '$c_name', '$l', '$t', '$p', '$r');";
                     $res = mysqli_query($conn, $query);
                     if(!$res) {
-                        echo "<script>alert('Course insertion failed');</script>" . mysqli_error($conn) ;   
-                    }else {
-                        header("Location: coordinator.php");  
+                        header("Location: coordinator.php?status=success");  
                         exit();
+                    } else {
+                        $error_msg = mysqli_error($conn);
+                        echo "<script>alert('Course insertion failed: $error_msg');</script>";
                     }
                 }
+                if(isset($_POST['sem-batch']) || isset($_POST['add_course_form'])) {
+                    $sem_selected = $_POST['sem_list'] ?? $_POST['selected_sem'];
+                    $batch_selected = $_POST['batch_list'] ?? $_POST['selected_batch'];
+                    
+                    echo "<p>Managing Timetable for <br> Semester: <strong>$sem_selected</strong> Batch: <strong>$batch_selected</strong></p>";
+                if (!isset($_POST['add_course_form'])) {
             ?>
-            <form method="POST" action="">
-            <label>Add Course</label><br>
-                <input type = "submit" name="add_course_form" value="Load Course Form" class="subbtn inpcommon" >
-                <input type="text" name="course_id" placeholder="Course ID" required>
-                <input type="text" name="course_name" placeholder="Course Name" required>
-                <input type="number" name="course_l" placeholder="L" title="Lecture" required>
-                <input type="number" name="course_t" placeholder="T" title="Tutorial" required>
-                <input type="number" name="course_p" placeholder="P" title="Practical" required>
-                <input type="number" name="course_r" placeholder="R" title="Research">
-                
-                <input type="hidden" name="selected_sem" value="<?php echo $sem_selected; ?>">
-                <input type="hidden" name="selected_batch" value="<?php echo $batch_selected; ?>">
-                
-                <input type="submit" value="Add Course" name="add_course" class="subbtn inpcommon">
-            </form>
-        </div>
+                    <form method="POST" action="">
+                        <label>Add Course</label><br>
+                        <input type="hidden" name="selected_sem" value="<?php echo $sem_selected; ?>">
+                        <input type="hidden" name="selected_batch" value="<?php echo $batch_selected; ?>">
+                        
+                        <input type="submit" name="add_course_form" value="Load Course Form" class="subbtn inpcommon">
+                    </form>
+                <?php
+                require_once "connection.php";
+                }
+                }
+            if (isset($_POST['add_course_form'])) {
+                 $sem_selected = $_POST['selected_sem'];
+                $batch_selected = $_POST['selected_batch'];
+                ?>
+                    <form method="POST" action="">
+                        <input type="hidden" name="selected_batch" value="<?php echo $batch_selected; ?>">
+                        <input type="hidden" name="selected_sem" value="<?php echo $sem_selected; ?>">
+
+                        <input type="text" name="course_id" placeholder="Course ID" required>
+                        <input type="text" name="course_name" placeholder="Course Name" required>
+                        <input type="number" name="course_l" placeholder="L" title="Lecture" required>
+                        <input type="number" name="course_t" placeholder="T" title="Tutorial" required>
+                        <input type="number" name="course_p" placeholder="P" title="Practical" required>
+                        <input type="number" name="course_r" placeholder="R" title="Research">
+        
+                        <input type="submit" value="Add Course" name="add_course" class="subbtn inpcommon">
+                    </form>
+                <?php
+            }       
+                ?>
     </body>
 </html>
 
