@@ -1,81 +1,70 @@
-/* General Page Styling */
-body {
-    background-color: #f0f2f5;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+*{
+    box-sizing: border-box;
 }
 
-/* Your Card Styling */
-.card1 {
-    background: white;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
+body{
+    background-color: #ddd;
+}
+
+.card1{
+    width: 30%;
+    margin: 0 auto;
     text-align: center;
+    margin-top: 200px;
+    padding: 4%;
+    background-color: #d3d3d3;
+    border-radius: 12px;
 }
 
-.card1 label:first-child {
-    font-size: 24px;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 25px;
-    color: #333;
-}
-
-/* Your Form Styling */
-.formcls {
+.formcls{
+    margin-top: 4%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    height: auto;
 }
 
-/* Your Input Box Styling */
-.inpbox {
+.inpcommon{
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    height: 60px;
+    margin-top: 10px;
+    border-style: none;
+    border-radius: 8px;
+    padding: 2% 4%;
 }
 
-/* Common Input Styles */
-.inpcommon {
-    font-size: 14px;
+.subbtn{
+    color: #eee;
+    font-weight: 700;
+    background-color: #222;
+    transition: all 0.4s ease;
 }
-
-/* Your Submit Button Styling */
-.subbtn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 4px;
+.subbtn:hover{
     cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s;
+    background-color: #00c721;
 }
 
-.subbtn:hover {
-    background-color: #0056b3;
+.goback{
+    width: 32px;
+    height: 32px;
+    background-color: #222;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.goback span{
+    color: #ddd;
 }
 
-/* "Register new user" Label */
-.formcls label {
-    margin-top: 15px;
-    font-size: 13px;
-    color: #666;
+@media (max-width: 748px) {
+    .card1{
+        width: 100%;
+    }
 }
-
-/* Styling for the Signup button specifically */
-input[name="signup"] {
-    background-color: #28a745;
-}
-
-input[name="signup"]:hover {
-    background-color: #218838;
+label{
+    margin-top:10px;
 }

@@ -10,11 +10,11 @@
     <body>
         <div class="card1">
             <label>Register Here</label>
-            <form class="formcls" method="POST" action="signup.php" >
+            <form class="formcls" method="POST" action="signup.php" id="signup_form">
                 <input type="text" placeholder="UserName" name="user_name" id="user" class="inpbox inpcommon">
-                <input type="text" placeholder="Enter Emp id " name="user_empid" id="user" class="inpbox inpcommon">
-                <input type="email" placeholder="enter Emp email" name="user_email" class="inpbox inpcommon">
-                <input type="password" placeholder="Enter Your Password" name="user_password" class="inpbox inpcommon">
+                <input type="text" placeholder="Enter Emp id " name="user_empid" id="user_empid" class="inpbox inpcommon">
+                <input type="email" placeholder="enter Emp email" name="user_email" class="inpbox inpcommon" id="user_email">
+                <input type="password" placeholder="Enter Your Password" name="user_password" class="inpbox inpcommon" id="user_pass">
                 <select name="user_type">
                     <option value="1">HOD</option>
                     <option value="2">Coordinator</option>
@@ -38,21 +38,54 @@
                 <input type="submit" value="Signup" name="signup" class="subbtn inpcommon">
             </form>
         </div>
+        <script>
+            document.getElementById('signup_form').onsubmit = function(event) {
+                var empId = document.getElementById('user_empid').value;
+                var email = document.getElementById('user_email').value;
+                var password = document.getElementById('user_pass').value;
+
+                var empIdPattern = /^emp\d+$/; 
+                var emailPattern = /^emp\d+@vidyaacademy\.ac\.in$/;
+                var passPattern = /^[1-9]\d\/\d{2}\/\d{4}$/;
+
+                
+                if (!empIdPattern.test(empId)) {
+                    alert("Employee ID must be in format");
+                    event.preventDefault();
+                    return false;
+                }
+
+                if (!emailPattern.test(email)) {
+                    alert("Email must be in format");
+                    event.preventDefault();
+                    return false;
+                }
+
+                if (!passPattern.test(password)) {
+                    alert("Password must be DOB");
+                    event.preventDefault();
+                    return false;
+                }
+
+                return true;
+            };
+        </script>
     </body>
 </html>
 
 <?php
     require_once "connection.php";
+    session_start();
     if (isset($_POST["signup"])) {
-        $user_name = $_POST["user_name"];
-        $user_empid = $_POST["user_empid"];
-        $user_password = $_POST["user_password"];
-        $user_type = $_POST["user_type"];
-        $user_email = $_POST["user_email"];
+        $user_name     = mysqli_real_escape_string($conn, $_POST["user_name"]);
+        $user_empid    = mysqli_real_escape_string($conn, $_POST["user_empid"]);
+        $user_password = mysqli_real_escape_string($conn, $_POST["user_password"]);
+        $user_type     = mysqli_real_escape_string($conn, $_POST["user_type"]);
+        $user_email    = mysqli_real_escape_string($conn, $_POST["user_email"]);;
+        $user_dept = mysqli_real_escape_string($conn, $_POST["dept_list"]);
 
-        echo $user_type;
-
-        $query = "INSERT INTO user (username, emp_id, pass, user_type,emp_email) values ('$user_name', '$user_empid', '$user_password','$user_type','user_email');";
+        $query = "INSERT INTO user (username, emp_id, pass, user_type, emp_email, dept_id) 
+                  VALUES ('$user_name', '$user_empid', '$user_password', '$user_type', '$user_email', '$user_dept')";
         $res = mysqli_query($conn, $query);
         if(!$res) {
             echo "Connection failed :". mysqli_error($conn);

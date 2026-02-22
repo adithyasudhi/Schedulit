@@ -4,7 +4,7 @@
         <title>Time Table Login Page</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" type="text/css" href="static/style.css">
     </head>
 
     <body>
@@ -26,9 +26,8 @@
     session_start();
     require_once "connection.php";
     if (isset($_POST['submit'])) {
-    
-        $user_empid = $_POST["user_empid"];
-        $user_password = $_POST["user_password"];
+        $user_empid = mysqli_real_escape_string($conn, $_POST["user_empid"]);
+        $user_password = mysqli_real_escape_string($conn, $_POST["user_password"]);
 
         $query = "SELECT * FROM user WHERE emp_id= '$user_empid' AND pass = '$user_password';";
 
@@ -36,8 +35,9 @@
 
         if(mysqli_num_rows($res) > 0){
             $row = mysqli_fetch_assoc($res);
-            $row["user_empid"] = $row["emp_id"];
-            $row["username"] = $row["username"];
+            $_SESSION['emp_id'] = $row['emp_id'];
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['user_type'] = $row['user_type'];
             if($row["user_type"] == 0) {
                 if($row['username'] == 'principal'){
                     header("Location: principal.php");
@@ -51,15 +51,14 @@
                 header("Location: hod.php");
                 exit();
             }else if($row["user_type"] == 2) {
-                header("Location: coordinator.php");
+                header("Location: co.php");
                 exit();
             }else if($row["user_type"] == 3) {
                 header("Location: faculty.php");
                 exit();
             }
-            else{
-                echo "<script>alert('Invalid Employee ID or Password');</script>";
-            }
+        }else{
+            echo "<script>alert('Invalid login');</script>";  
         }
     }
 ?>
