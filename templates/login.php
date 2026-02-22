@@ -66,7 +66,7 @@
                 <input type="password" placeholder="Enter Password" name="user_password" class="inpbox inpcommon">
                 <input type="submit" value="Login" name="submit" class="subbtn inpcommon" >
                 <label>New user</label>
-                <a href="signup.php">Signup</a> 
+                <a href="signup.php" class="subbtn inpcommon">Signup</a> 
             </form>
             
         </div>
