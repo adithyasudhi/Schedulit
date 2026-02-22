@@ -1,10 +1,45 @@
+<?php
+    require_once "connection.php";
+    session_start();
+    if (isset($_POST["signup"])) {
+        $user_name     = mysqli_real_escape_string($conn, $_POST["user_name"]);
+        $user_empid    = mysqli_real_escape_string($conn, $_POST["user_empid"]);
+        $user_password = mysqli_real_escape_string($conn, $_POST["user_password"]);
+        $user_type     = mysqli_real_escape_string($conn, $_POST["user_type"]);
+        $user_email    = mysqli_real_escape_string($conn, $_POST["user_email"]);;
+        $user_dept = mysqli_real_escape_string($conn, $_POST["dept_list"]);
+
+        $query = "INSERT INTO user (username, emp_id, pass, user_type, emp_email, dept_id) 
+                  VALUES ('$user_name', '$user_empid', '$user_password', '$user_type', '$user_email', '$user_dept')";
+        $res = mysqli_query($conn, $query);
+        if(!$res) {
+            echo "Connection failed :". mysqli_error($conn);
+        }else {
+            $_SESSION['emp_id']   = $user_empid;
+            $_SESSION['username'] = $user_name;
+            $_SESSION['user_type'] = $user_type;
+            $_SESSION['dept_id']  = $user_dept;
+
+            header("Location: login.php");
+            exit();
+        }
+    }
+?>
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Time Table Login Page</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="/schedulit/static/style.css">
     </head>
 
     <body>
@@ -22,7 +57,6 @@
                 </select>
                 <select name="dept_list">
                     <?php
-                        require_once "connection.php";
                         $query = " SELECT * FROM department ";
                         $res = mysqli_query($conn, $query);
                         if(!$res){
@@ -46,7 +80,7 @@
 
                 var empIdPattern = /^emp\d+$/; 
                 var emailPattern = /^emp\d+@vidyaacademy\.ac\.in$/;
-                var passPattern = /^[1-9]\d\/\d{2}\/\d{4}$/;
+                var passPattern = /^.{8,}$/;
 
                 
                 if (!empIdPattern.test(empId)) {
@@ -62,7 +96,7 @@
                 }
 
                 if (!passPattern.test(password)) {
-                    alert("Password must be DOB");
+                    alert("Password must be at least 8 characters long");
                     event.preventDefault();
                     return false;
                 }
@@ -72,26 +106,3 @@
         </script>
     </body>
 </html>
-
-<?php
-    require_once "connection.php";
-    session_start();
-    if (isset($_POST["signup"])) {
-        $user_name     = mysqli_real_escape_string($conn, $_POST["user_name"]);
-        $user_empid    = mysqli_real_escape_string($conn, $_POST["user_empid"]);
-        $user_password = mysqli_real_escape_string($conn, $_POST["user_password"]);
-        $user_type     = mysqli_real_escape_string($conn, $_POST["user_type"]);
-        $user_email    = mysqli_real_escape_string($conn, $_POST["user_email"]);;
-        $user_dept = mysqli_real_escape_string($conn, $_POST["dept_list"]);
-
-        $query = "INSERT INTO user (username, emp_id, pass, user_type, emp_email, dept_id) 
-                  VALUES ('$user_name', '$user_empid', '$user_password', '$user_type', '$user_email', '$user_dept')";
-        $res = mysqli_query($conn, $query);
-        if(!$res) {
-            echo "Connection failed :". mysqli_error($conn);
-        }else {
-            header("Location: login.php");
-            
-        }
-    }
-?>

@@ -1,10 +1,66 @@
+<?php
+    session_start();
+    require_once "connection.php";
+    if (!isset($_SESSION['emp_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    if (isset($_POST["add_dept"])) {
+        $dept_id = $_POST["dept_id"];
+        $dept_name = $_POST["dept_name"];
+        if (empty($dept_id) || empty($dept_name)) {
+            echo "<script>alert('Error: Both ID and Name are required to add a department'); window.location.href='admin.php';</script>";
+            exit();
+        }
+
+        $query = "INSERT INTO department (dept_id, dept_name) values ('$dept_id', '$dept_name');";
+        $res = mysqli_query($conn, $query);
+        if(!$res) {
+            echo "<script>alert('Department insertion failed');</script>" . mysqli_error($conn) ;
+        }else {
+            header("Location: admin.php");
+            exit();
+        }
+    }
+    if (isset($_POST["remove_dept"])) {
+        $dept_id = mysqli_real_escape_string($conn, $_POST["dept_id-remove"]);
+        $query = "DELETE FROM department WHERE dept_id = '$dept_id';";
+        $res = mysqli_query($conn, $query);
+        if(!$res) {
+            echo "<script>alert('Department removal failed');</script>" . mysqli_error($conn) ;
+        }else {
+            if(mysqli_affected_rows($conn) > 0) {
+                header("Location: admin.php");
+                exit();
+            } else {
+                echo "<script>alert('No department found with that ID');</script>";
+            }
+        }
+    }
+?>
+
+
+
+
+
+
+
+
+
 <html>
     <head>
         <title>Admin's page</title>
+
     </head>
     <body>
         <div>
             <label>Admin's page</label>
+            <nav class="navbar">
+                <div class="nav-right">
+                    <a href="logout.php" class="logout-btn">Logout</a>
+                </div>
+            </nav>
             <form method="POST" action="admin.php">
                 <input type = "text" name = "dept_id" placeholder = "Department ID" id = "dept_id">
                 <input type = "text" name = "dept_name" placeholder = "Department Name" id = "dept_name">
@@ -39,43 +95,3 @@
         </div>
     </body> 
 </html>
-
-
-<?php
-    require_once "connection.php";
-    if (isset($_POST["add_dept"])) {
-        $dept_id = $_POST["dept_id"];
-        $dept_name = $_POST["dept_name"];
-        if (empty($dept_id) || empty($dept_name)) {
-            echo "<script>alert('Error: Both ID and Name are required to add a department'); window.location.href='admin.php';</script>";
-            exit();
-        }
-
-        $query = "INSERT INTO department (dept_id, dept_name) values ('$dept_id', '$dept_name');";
-        $res = mysqli_query($conn, $query);
-        if(!$res) {
-            echo "<script>alert('Department insertion failed');</script>" . mysqli_error($conn) ;
-        }else {
-            header("Location: admin.php");
-            exit();
-        }
-    }
-?>
-<?php
-    require_once "connection.php";
-    if (isset($_POST["remove_dept"])) {
-        $dept_id = mysqli_real_escape_string($conn, $_POST["dept_id-remove"]);
-        $query = "DELETE FROM department WHERE dept_id = '$dept_id';";
-        $res = mysqli_query($conn, $query);
-        if(!$res) {
-            echo "<script>alert('Department removal failed');</script>" . mysqli_error($conn) ;
-        }else {
-            if(mysqli_affected_rows($conn) > 0) {
-                header("Location: admin.php");
-                exit();
-            } else {
-                echo "<script>alert('No department found with that ID');</script>";
-            }
-        }
-    }
-?>

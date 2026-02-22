@@ -1,3 +1,11 @@
+<?php
+    require_once "connection.php";
+    session_start();
+    if (!isset($_SESSION['username'])) {
+        header("Location: login.php");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,6 +14,11 @@
     <body>
         <div>
             <label>HOD's Page</label>
+            <nav class="navbar">
+                <div class="nav-right">
+                    <a href="logout.php" class="logout-btn">Logout</a>
+                </div>
+            </nav>
 
             <br><br>
             <button type="button" onclick="showModification()">Semester Modification</button>

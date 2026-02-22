@@ -1,27 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Time Table Login Page</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="static/style.css">
-    </head>
-
-    <body>
-        <div class="card1">
-            <label>Login Page</label>
-            <form class="formcls" method="POST" action="login.php" >
-                <input type="text" placeholder="Enter Emp id" name="user_empid" id="user_empid" class="inpbox inpcommon">
-                <input type="password" placeholder="Enter Password" name="user_password" class="inpbox inpcommon">
-                <input type="submit" value="Login" name="submit" class="subbtn inpcommon" >
-                <label>New user</label>
-                <a href="signup.php">Signup</a> 
-            </form>
-            
-        </div>
-    </body>
-</html>
-
 <?php
     session_start();
     require_once "connection.php";
@@ -38,6 +14,8 @@
             $_SESSION['emp_id'] = $row['emp_id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['user_type'] = $row['user_type'];
+            $_SESSION['dept_id'] = $row['dept_id'];
+            
             if($row["user_type"] == 0) {
                 if($row['username'] == 'principal'){
                     header("Location: principal.php");
@@ -51,7 +29,7 @@
                 header("Location: hod.php");
                 exit();
             }else if($row["user_type"] == 2) {
-                header("Location: co.php");
+                header("Location: coordinator.php");
                 exit();
             }else if($row["user_type"] == 3) {
                 header("Location: faculty.php");
@@ -62,3 +40,35 @@
         }
     }
 ?>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Time Table Login Page</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/schedulit/static/style.css">
+    </head>
+
+    <body>
+        <div class="card1">
+            <label>Login Page</label>
+            <form class="formcls" method="POST" action="login.php" >
+                <input type="text" placeholder="Enter Emp id" name="user_empid" id="user_empid" class="inpbox inpcommon">
+                <input type="password" placeholder="Enter Password" name="user_password" class="inpbox inpcommon">
+                <input type="submit" value="Login" name="submit" class="subbtn inpcommon" >
+                <label>New user</label>
+                <a href="signup.php">Signup</a> 
+            </form>
+            
+        </div>
+    </body>
+</html>
