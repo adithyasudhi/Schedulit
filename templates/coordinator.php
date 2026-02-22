@@ -1,11 +1,10 @@
 <?php
-require_once "connection.php";
-session_start();
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header("Location: login.php"); // Or wherever your login page is
-    exit();
-}
+    require_once "connection.php";
+    session_start();
+    if (!isset($_SESSION['emp_id'])) {
+        header("Location: login.php");
+        exit();
+    }
 
 $selected_sem = "";
 
