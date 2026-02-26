@@ -51,21 +51,21 @@
 <html>
     <head>
         <title>Admin's page</title>
-
+        <link rel="stylesheet" href="/schedulit/static/style.css">
     </head>
     <body>
-        <div>
+        <nav class="navbar">
+            <div class="nav-right">
+                <a href="logout.php" class="logout-btn">Logout</a>
+            </div>
+        </nav>
+        <div class="card2">
             <label>Admin's page</label>
-            <nav class="navbar">
-                <div class="nav-right">
-                    <a href="logout.php" class="logout-btn">Logout</a>
-                </div>
-            </nav>
-            <form method="POST" action="admin.php">
-                <input type = "text" name = "dept_id" placeholder = "Department ID" id = "dept_id">
-                <input type = "text" name = "dept_name" placeholder = "Department Name" id = "dept_name">
+            <form method="POST" action="admin.php" class="formcls">
+                <input type = "text" name = "dept_id" placeholder = "Department ID" id = "dept_id" class = "text-inputs inpcommon">
+                <input type = "text" name = "dept_name" placeholder = "Department Name" id = "dept_name" class = "text-inputs inpcommon">
                 <input type = "submit" value = "Add Department" name = "add_dept" class = "subbtn inpcommon">
-                <input type = "text" name = "dept_id-remove" placeholder = "Department to Remove ID" id = "dept_id_remove">
+                <input type = "text" name = "dept_id-remove" placeholder = "Department ID to Remove" id = "dept_id_remove" class = "text-inputs inpcommon">
                 <input type = "submit" value = "Remove Department" name = "remove_dept" class = "subbtn inpcommon">
             </form>
             <table>

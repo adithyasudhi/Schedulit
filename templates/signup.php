@@ -46,16 +46,16 @@
         <div class="card1">
             <label>Register Here</label>
             <form class="formcls" method="POST" action="signup.php" id="signup_form">
-                <input type="text" placeholder="UserName" name="user_name" id="user" class="inpbox inpcommon">
-                <input type="text" placeholder="Enter Emp id " name="user_empid" id="user_empid" class="inpbox inpcommon">
-                <input type="email" placeholder="enter Emp email" name="user_email" class="inpbox inpcommon" id="user_email">
-                <input type="password" placeholder="Enter Your Password" name="user_password" class="inpbox inpcommon" id="user_pass">
-                <select name="user_type">
+                <input type="text" placeholder="UserName" name="user_name" id="user" class="text-inputs inpcommon">
+                <input type="text" placeholder="Enter Emp id " name="user_empid" id="user_empid" class="text-inputs inpcommon">
+                <input type="email" placeholder="enter Emp email" name="user_email" class="text-inputs inpcommon" id="user_email">
+                <input type="password" placeholder="Enter Your Password" name="user_password" class="text-inputs inpcommon" id="user_pass">
+                <select name="user_type" class="text-inputs inpcommon">
                     <option value="1">HOD</option>
                     <option value="2">Coordinator</option>
                     <option value="3">Faculty</option>
                 </select>
-                <select name="dept_list">
+                <select name="dept_list" class="text-inputs inpcommon">
                     <?php
                         $query = " SELECT * FROM department ";
                         $res = mysqli_query($conn, $query);
@@ -77,7 +77,11 @@
                 var empId = document.getElementById('user_empid').value;
                 var email = document.getElementById('user_email').value;
                 var password = document.getElementById('user_pass').value;
-
+                if (name === "" || empId === "" || email === "" || password === "") {
+                    alert("All fields are required!");
+                    event.preventDefault();
+                    return false;
+                }
                 var empIdPattern = /^emp\d+$/; 
                 var emailPattern = /^emp\d+@vidyaacademy\.ac\.in$/;
                 var passPattern = /^.{8,}$/;

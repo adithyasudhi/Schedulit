@@ -62,8 +62,8 @@
         <div class="card1">
             <label>Login Page</label>
             <form class="formcls" method="POST" action="login.php" >
-                <input type="text" placeholder="Enter Emp id" name="user_empid" id="user_empid" class="inpbox inpcommon">
-                <input type="password" placeholder="Enter Password" name="user_password" class="inpbox inpcommon">
+                <input type="text" placeholder="Enter Emp id" name="user_empid" id="user_empid" class="text-inputs inpcommon">
+                <input type="password" placeholder="Enter Password" name="user_password" class="text-inputs inpcommon">
                 <input type="submit" value="Login" name="submit" class="subbtn inpcommon" >
                 <label>New user</label>
                 <a href="signup.php" class="subbtn inpcommon">Signup</a> 
