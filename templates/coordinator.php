@@ -74,11 +74,6 @@ if (isset($_POST['add_course'])) {
                     <button type="submit" name="next" class="subbtn inpcommon">Next</button>
                 </form>
             </div>
-            <div id="view timetable" style="display:none;">
-                <form action="coordinator.php" method="POST">
-                    <button type="button" onclick="viewtimetable()" class="subbtn inpcommon">view timetable</button>
-                </form>
-            </div>
             <hr>
 
         <!-- ================= ADD COURSE FORM ================= -->
