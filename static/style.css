@@ -71,7 +71,11 @@ th, td {
     outline: none;
 	border: none;
 }
-
+.card2 .inpcommon{
+    width: 40%;    
+    margin: 15px auto;
+    display: block;
+}
 .subbtn{
     color: #eee;
     font-weight: 700;

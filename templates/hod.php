@@ -22,7 +22,6 @@
             <label>HOD's Page</label>
             <br><br>
             <button type="button" onclick="showModification()" class="subbtn inpcommon">Semester Modification</button>
-            <br><br>
             <div id="mod_area" style="display: none;">
                 <form method="POST" action="hod.php">
                     <input type = "text" name = "sem_id" placeholder = "Semester ID" id = "sem_id" class="text-inputs inpcommon">            
@@ -38,7 +37,6 @@
                             mysqli_stmt_execute($stmt);
                         }
                     ?>
-                    <br><br>
                     <input type = "text" name = "sem_id_remove" placeholder = "Remove Semester ID" id = "sem_id_remove" class="text-inputs inpcommon">
                     <input type = "text" name = "sem_batch_remove" placeholder = "Remove Batch" id = "sem_batch_remove" class="text-inputs inpcommon" >
                     <input type = "submit" value = "Remove Semester" name = "remove_sem" class = "subbtn inpcommon"> 
@@ -77,7 +75,6 @@
                     ?>
                 </table>
             </div>
-            <br><br>
             <div id="alloc_area" >
                 <button type="button" onclick="showAllocation()" class="subbtn inpcommon">Teacher Allocation</button>
                 <div id="teacher_alloc_area" style="display: none;">
@@ -86,8 +83,6 @@
                     <br><br>
                     <?php require_once "connection.php"; ?>
                     <form method="POST" action="hod.php">
-                        <label>Select Semester and Batch</label>
-                        <br><br>
                         <!-- Semester Dropdown -->
                         <select name="sem_list" class="text-inputs inpcommon">
                             <option value="">Select Semester</option>
@@ -102,7 +97,6 @@
                             ?>
                         </select>
                         <input type="submit" name="load_batches" value="Load Batches" class="subbtn inpcommon">
-                        <br><br>
                         <?php
                             // Keeps the area visible if a form within it was submitted
                             if (isset($_POST['load_batches']) || isset($_POST['show_courses'])) {
@@ -156,7 +150,7 @@
                                             echo "<td>{$row['course_id']}</td>";
                                             echo "<td>{$row['course_name']}</td>";
                                             echo "<td>
-                                                <input list='faculty_list_{$row['course_id']}' name='faculty_{$row['course_id']}'>
+                                                <input list='faculty_list_{$row['course_id']}' name='faculty_{$row['course_id']}' class='text-inputs inpcommon'>
                                                 <datalist id='faculty_list_{$row['course_id']}'>";
                                                 foreach ($faculty_list as $faculty) {
                                                     echo "<option value='$faculty'>";
@@ -168,6 +162,93 @@
                                 echo "</table>";
                             } else {
                                 echo "No courses found for this semester and batch.";
+                            }
+                        }
+                    ?>
+                </div>
+                <button type="button" onclick="showTimetable()" class="subbtn inpcommon">View Timetable</button>
+
+                <div id="timetable_area" style="display: none;">
+                    <br><br>
+                    <h3>Select Semester to View Timetable</h3>
+
+                    <form method="POST" action="hod.php">
+
+                        <!-- Semester Dropdown -->
+                        <select name="tt_sem" class="text-inputs inpcommon">
+                            <option value="">Select Semester</option>
+                            <?php
+                                $selected_tt_sem = $_POST['tt_sem'] ?? "";
+                                $query = "SELECT DISTINCT sem_id FROM semester";
+                                $res = mysqli_query($conn, $query);
+                                while($row = mysqli_fetch_assoc($res)){
+                                    $sel = ($row['sem_id'] == $selected_tt_sem) ? "selected" : "";
+                                    echo "<option value='{$row['sem_id']}' $sel>{$row['sem_id']}</option>";
+                                }
+                            ?>
+                        </select>
+
+                        <input type="submit" name="load_tt_batches" value="Load Batches" class="subbtn inpcommon">
+                        <?php
+                            // Keeps the area visible if a form within it was submitted
+                            if (isset($_POST['load_tt_batches']) || isset($_POST['view_tt'])) {
+                                echo "<script>document.getElementById('timetable_area').style.display = 'block';</script>";
+                            }   
+                        ?>
+
+                        <!-- Batch Dropdown -->
+                        <select name="tt_batch" class="text-inputs inpcommon">
+                            <option value="">Select Batch</option>
+                            <?php
+                                if (!empty($selected_tt_sem)) {
+                                    $selected_tt_batch = $_POST['tt_batch'] ?? "";
+                                    $stmt = mysqli_prepare($conn,"SELECT DISTINCT sem_batch FROM semester WHERE sem_id = ?");
+                                    mysqli_stmt_bind_param($stmt, "s", $selected_tt_sem);
+                                    mysqli_stmt_execute($stmt);
+                                    $res = mysqli_stmt_get_result($stmt);
+
+                                    while($row = mysqli_fetch_assoc($res)){
+                                        $sel = ($row['sem_batch'] == $selected_tt_batch) ? "selected" : "";
+                                        echo "<option value='{$row['sem_batch']}' $sel>{$row['sem_batch']}</option>";
+                                    }
+                                }
+                            ?>
+                        </select>
+
+                        <input type="submit" name="view_tt" value="View" class="subbtn inpcommon">
+                    </form>
+                    <?php
+                        if (isset($_POST['view_tt']) && !empty($_POST['tt_sem'])) {
+
+                            $tt_sem = $_POST['tt_sem'];
+
+                            echo "<h3>Timetable for Semester: $tt_sem</h3>";
+
+                            $stmt = mysqli_prepare($conn, "SELECT * FROM timetable WHERE sem_id = ?");
+                            mysqli_stmt_bind_param($stmt, "s", $tt_sem);
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                echo "<table border='1'>";
+                                echo "<tr>
+                                        <th>Day</th>
+                                        <th>Hour</th>
+                                        <th>Course</th>
+                                        <th>Faculty</th>
+                                    </tr>";
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>
+                                            <td>{$row['day']}</td>
+                                            <td>{$row['hour']}</td>
+                                            <td>{$row['course_id']}</td>
+                                            <td>{$row['faculty']}</td>
+                                        </tr>";
+                                }
+                                echo "</table>";
+                            } else {
+                                echo "No timetable found for this semester.";
                             }
                         }
                     ?>
@@ -191,6 +272,14 @@
                     area.style.display = "block";
                 }
                 else {
+                    area.style.display = "none";
+                }
+            }
+            function showTimetable() {
+                var area = document.getElementById("timetable_area");
+                if (area.style.display === "none") {
+                    area.style.display = "block";
+                } else {
                     area.style.display = "none";
                 }
             }

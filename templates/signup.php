@@ -74,32 +74,38 @@
         </div>
         <script>
             document.getElementById('signup_form').onsubmit = function(event) {
-                var empId = document.getElementById('user_empid').value;
-                var email = document.getElementById('user_email').value;
-                var password = document.getElementById('user_pass').value;
-                if (name === "" || empId === "" || email === "" || password === "") {
+                // 1. Fetch values
+                var typedName     = document.getElementById('user').value;
+                var typedEmpId    = document.getElementById('user_empid').value;
+                var typedEmail    = document.getElementById('user_email').value;
+                var typedPassword = document.getElementById('user_pass').value;
+
+                // 2. Check for empty fields (using .trim() to ignore spaces)
+                if (typedName.trim() === "" || typedEmpId.trim() === "" || typedEmail.trim() === "" || typedPassword.trim() === "") {
                     alert("All fields are required!");
                     event.preventDefault();
                     return false;
                 }
+
+                // 3. Define Patterns
                 var empIdPattern = /^emp\d+$/; 
                 var emailPattern = /^emp\d+@vidyaacademy\.ac\.in$/;
                 var passPattern = /^.{8,}$/;
 
-                
-                if (!empIdPattern.test(empId)) {
-                    alert("Employee ID must be in format");
+                // 4. Validate using the NEW variable names
+                if (!empIdPattern.test(typedEmpId)) {
+                    alert("Employee ID must be in format (e.g., emp11)");
                     event.preventDefault();
                     return false;
                 }
 
-                if (!emailPattern.test(email)) {
-                    alert("Email must be in format");
+                if (!emailPattern.test(typedEmail)) {
+                    alert("Email must be in format (e.g., emp11@vidyaacademy.ac.in)");
                     event.preventDefault();
                     return false;
                 }
 
-                if (!passPattern.test(password)) {
+                if (!passPattern.test(typedPassword)) {
                     alert("Password must be at least 8 characters long");
                     event.preventDefault();
                     return false;
