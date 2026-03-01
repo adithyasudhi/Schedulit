@@ -56,7 +56,8 @@ if (isset($_POST['add_course'])) {
         <h2>Coordinator Page</h2>
         
         <div class="card2">
-            <div id=semester-selection>
+            <button type="button" onclick=semesterSelection() class="subbtn inpcommon">Select Semester</button>
+            <div id=semester-selection style="display: none;">
                 <form method="POST" action="coordinator.php">
                     <label>Select Semester:</label>
                     <select name="semester" class="text-inputs" required>
@@ -69,14 +70,10 @@ if (isset($_POST['add_course'])) {
                                 echo "<option value='".$row['sem_id']."' $selected>".$row['sem_id']."</option>";
                             }
                         ?>
-                    </select>
-                    <br><br>      
+                    </select>     
                     <button type="submit" name="next" class="subbtn inpcommon">Next</button>
                 </form>
-            </div>
-            <hr>
-
-        <!-- ================= ADD COURSE FORM ================= -->
+                <!-- ================= ADD COURSE FORM ================= -->
 
             <?php if (isset($_POST['next']) || isset($_POST['add_course'])) { ?>
 
@@ -127,6 +124,70 @@ if (isset($_POST['add_course'])) {
                 ?>
             </table>
             <?php } ?>
+            </div>    
+            <button type="button" onclick="showTimetable()" class="subbtn inpcommon">View Timetable</button>
+                <div id="timetable_area" style="display: none;">
+                        <h3>Select Semester to View Timetable</h3>
+                        <!-- Semester Dropdown -->
+                        <select name="tt_sem" class="text-inputs inpcommon">
+                            <option value="">Select Semester</option>
+                            <?php
+                                $selected_tt_sem = $_POST['tt_sem'] ?? "";
+                                $query = "SELECT DISTINCT sem_id FROM semester";
+                                $res = mysqli_query($conn, $query);
+                                while($row = mysqli_fetch_assoc($res)){
+                                    $sel = ($row['sem_id'] == $selected_tt_sem) ? "selected" : "";
+                                    echo "<option value='{$row['sem_id']}' $sel>{$row['sem_id']}</option>";
+                                }
+                            ?>
+                        </select>
+                        <input type="submit" name="load_tt_batches" value="Load Batches" class="subbtn inpcommon">
+                        <?php
+                            // Keeps the area visible if a form within it was submitted
+                            if (isset($_POST['load_tt_batches']) || isset($_POST['view_tt'])) {
+                                echo "<script>document.getElementById('timetable_area').style.display = 'block';</script>";
+                            }   
+                        ?>
+                        <!-- Batch Dropdown -->
+                        <select name="tt_batch" class="text-inputs inpcommon">
+                            <option value="">Select Batch</option>
+                            <?php
+                                if (!empty($selected_tt_sem)) {
+                                    $selected_tt_batch = $_POST['tt_batch'] ?? "";
+                                    $stmt = mysqli_prepare($conn,"SELECT DISTINCT sem_batch FROM semester WHERE sem_id = ?");
+                                    mysqli_stmt_bind_param($stmt, "s", $selected_tt_sem);
+                                    mysqli_stmt_execute($stmt);
+                                    $res = mysqli_stmt_get_result($stmt);
+
+                                    while($row = mysqli_fetch_assoc($res)){
+                                        $sel = ($row['sem_batch'] == $selected_tt_batch) ? "selected" : "";
+                                        echo "<option value='{$row['sem_batch']}' $sel>{$row['sem_batch']}</option>";
+                                    }
+                                }
+                            ?>
+                        </select>
+                        <input type="submit" name="view_tt" value="View" class="subbtn inpcommon">
+                    </div>    
+                </form>
+            </div>
         </div>
+        <script>
+            function semesterSelection() {
+                var x = document.getElementById("semester-selection");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            function showTimetable() {
+                var area = document.getElementById("timetable_area");
+                if (area.style.display === "none") {
+                    area.style.display = "block";
+                } else {
+                    area.style.display = "none";
+                }
+            }
+        </script>
     </body>
 </html>

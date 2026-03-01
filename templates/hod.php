@@ -217,41 +217,6 @@
 
                         <input type="submit" name="view_tt" value="View" class="subbtn inpcommon">
                     </form>
-                    <?php
-                        if (isset($_POST['view_tt']) && !empty($_POST['tt_sem'])) {
-
-                            $tt_sem = $_POST['tt_sem'];
-
-                            echo "<h3>Timetable for Semester: $tt_sem</h3>";
-
-                            $stmt = mysqli_prepare($conn, "SELECT * FROM timetable WHERE sem_id = ?");
-                            mysqli_stmt_bind_param($stmt, "s", $tt_sem);
-                            mysqli_stmt_execute($stmt);
-                            $result = mysqli_stmt_get_result($stmt);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                echo "<table border='1'>";
-                                echo "<tr>
-                                        <th>Day</th>
-                                        <th>Hour</th>
-                                        <th>Course</th>
-                                        <th>Faculty</th>
-                                    </tr>";
-
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>
-                                            <td>{$row['day']}</td>
-                                            <td>{$row['hour']}</td>
-                                            <td>{$row['course_id']}</td>
-                                            <td>{$row['faculty']}</td>
-                                        </tr>";
-                                }
-                                echo "</table>";
-                            } else {
-                                echo "No timetable found for this semester.";
-                            }
-                        }
-                    ?>
                 </div>
             </div>
         </div>
