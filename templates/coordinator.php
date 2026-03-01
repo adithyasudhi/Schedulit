@@ -56,24 +56,29 @@ if (isset($_POST['add_course'])) {
         <h2>Coordinator Page</h2>
         
         <div class="card2">
-            
-    <!-- ================= SEMESTER & BATCH FORM ================= -->
-            <form method="POST" action="coordinator.php">
-                <label>Select Semester:</label>
-                <select name="semester" class="text-inputs" required>
-                    <option value="">-- Select Semester --</option>
-                    <?php
-                        $query = "SELECT DISTINCT sem_id FROM semester";
-                        $result = mysqli_query($conn, $query);
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $selected = ($selected_sem == $row['sem_id']) ? "selected" : "";
-                            echo "<option value='".$row['sem_id']."' $selected>".$row['sem_id']."</option>";
-                        }
-                    ?>
-                </select>
-                <br><br>      
-                <button type="submit" name="next" class="subbtn inpcommon">Next</button><br><br>
-            </form>
+            <div id=semester-selection>
+                <form method="POST" action="coordinator.php">
+                    <label>Select Semester:</label>
+                    <select name="semester" class="text-inputs" required>
+                        <option value="">-- Select Semester --</option>
+                        <?php
+                            $query = "SELECT DISTINCT sem_id FROM semester";
+                            $result = mysqli_query($conn, $query);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $selected = ($selected_sem == $row['sem_id']) ? "selected" : "";
+                                echo "<option value='".$row['sem_id']."' $selected>".$row['sem_id']."</option>";
+                            }
+                        ?>
+                    </select>
+                    <br><br>      
+                    <button type="submit" name="next" class="subbtn inpcommon">Next</button>
+                </form>
+            </div>
+            <div id="view timetable" style="display:none;">
+                <form action="coordinator.php" method="POST">
+                    <button type="button" onclick="viewtimetable()" class="subbtn inpcommon">view timetable</button>
+                </form>
+            </div>
             <hr>
 
         <!-- ================= ADD COURSE FORM ================= -->
