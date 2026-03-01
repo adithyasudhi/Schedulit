@@ -52,7 +52,7 @@ if (isset($_POST['remove_course'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Coordinator Page</title>
+        <title>Coordinator's Page</title>
         <link rel="stylesheet" href="/schedulit/static/style.css">
     </head>
     
@@ -102,7 +102,7 @@ if (isset($_POST['remove_course'])) {
 
                     <h3>Course List (<?php echo htmlspecialchars($selected_sem); ?>)</h3>
                     <table border="1" cellpadding="8" style="width:100%; text-align:left; border-collapse: collapse;">
-                        <tr style="background-color: #f2f2f2;">
+                        <tr>
                             <th>Course ID</th>
                             <th>Course Name</th>
                             <th>L</th>
