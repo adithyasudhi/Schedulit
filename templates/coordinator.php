@@ -67,7 +67,7 @@ if (isset($_POST['remove_course'])) {
         <div class="card2">
             <button type="button" onclick="semesterSelection()" class="subbtn inpcommon">Manage Courses</button>
             
-            <div id="semester-selection" style="display:none;">
+            <div id="semester-selection" style="display: <?php echo ($selected_sem) ? 'block' : 'none'; ?>;">
                 <form method="POST" action="coordinator.php">
                     <label>Select Semester:</label>
                     <select name="semester" class="text-inputs" required onchange="this.form.submit()">
