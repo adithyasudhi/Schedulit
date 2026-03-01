@@ -37,6 +37,46 @@
                     <input type="submit" value="Next" name="select_dept" class="subbtn inpcommon">
                 </div>
             </form>
+            <?php
+            // STEP 2: If 'Next' was clicked, show Semester & Batch Selection
+            if(isset($_POST['select_dept']) && !empty($_POST['dept_list'])){
+                $dept_id = mysqli_real_escape_string($conn, $_POST['dept_list']);
+                
+                // Fetch Dept Name for display
+                $dept_res = mysqli_query($conn, "SELECT dept_name FROM department WHERE dept_id = '$dept_id'");
+                $dept_data = mysqli_fetch_assoc($dept_res);
+                
+                echo "<h3>Department: " . htmlspecialchars($dept_data['dept_name']) . "</h3>";
+                echo "<form action='faculty.php' method='POST'>";
+                echo "<input type='hidden' name='dept_id' value='$dept_id'>";
+
+                // Semester Dropdown
+                echo "<label>Select Semester:</label><br><br>";
+                echo "<select name='tt_sem' class='text-inputs inpcommon' required>";
+                echo "<option value=''>Select Semester</option>";
+                
+                $query = "SELECT DISTINCT sem_id FROM semester"; 
+                $res = mysqli_query($conn, $query);
+                while($row = mysqli_fetch_assoc($res)){
+                    echo "<option value='{$row['sem_id']}'>{$row['sem_id']}</option>";
+                }
+                echo "</select><br><br>";
+
+                // Batch Dropdown
+                echo "<label>Select Batch:</label><br><br>";
+                echo "<select name='tt_batch' class='text-inputs inpcommon' required>";
+                echo "<option value=''>Select Batch</option>";
+                
+                $res2 = mysqli_query($conn, "SELECT DISTINCT sem_batch FROM semester");
+                while($row2 = mysqli_fetch_assoc($res2)){
+                    echo "<option value='{$row2['sem_batch']}'>{$row2['sem_batch']}</option>";
+                }
+                echo "</select><br><br>";
+
+                echo "<input type='submit' name='view_tt' value='View Timetable' class='subbtn inpcommon'>";
+                echo "</form>";
+            }
+            ?>
         </div>
         <script>
             function viewtimetable() {
